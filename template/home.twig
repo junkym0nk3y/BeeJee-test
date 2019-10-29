@@ -6,18 +6,23 @@
     <meta name="viewport" content="width=1140">
     <link rel="stylesheet" href="/style/css/bootstrap.min.css">
     <link rel="stylesheet" href="/style/css/style.css">
-    <title></title>
+    <title>{{ title }}</title>
     <link rel="icon" type="image/png" href="/style/icons/favicon.png">
   </head>
 
   <body>
     <div id="top-bar">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <h1>Тестовое задание</h1>
-          </div>
+      <div class="top-text">{{ title }}</div>
+      <div class="container top-cont">
+      <div class="row buttons">
+        <div class="col"></div>
+        <div class="col-md-auto"></div>
+        <div class="col col-lg-2">
+          <button type="button" class="btn btn-primary auth">Авторизация</button>
+          <button type="button" aria-disabled="true" class="btn btn-link save" disabled><i class="material-icons">save</i></button>
+          <button type="button" class="btn btn-link add-new"><i class="material-icons">add</i></button>
         </div>
+      </div>
       </div>
     </div>
 
@@ -45,38 +50,13 @@
       </div>
     </div>
 
-    <script src="/style/js/jquery-3.4.1.min.js"></script>
-    <script src="/style/js/bootstrap.min.js"></script>
-    <script src="/style/js/popper.min.js"></script>
-    <script src="/style/js/list.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/list.min.js"></script>
     <script>
-      var value_tmp = [
-         'id',
-         'username',
-         'email',
-         'descript',
-         'status',
-         { name: 'edited', attr: 'data-edited' },
-       ];
-      var list_options = {
-        valueNames: value_tmp,
-        item: '<tr>' 
-          + '<th class="id" scope="row"></th>'
-          + '</td><td class="username"></td>'
-          + '<td class="email"></td>'
-          + '<td class="descript"></td>'
-          + '<td class="status"></td>'
-          + '<td class="edited"></td>'
-        + '</tr>',
-        page: 3,
-        pagination: [{
-          paginationClass: 'paginationBottom',
-          innerWindow: 2,
-          left: 2,
-          right: 2
-        }],
-      };
-      var listjs = new List('userlist', list_options, {{ db|json_encode()|raw }});
+      var values = {{ db|json_encode()|raw }};
     </script>
+    <script src="/js/main.js"></script>
   </body>
 </html>
