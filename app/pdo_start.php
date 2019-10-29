@@ -6,7 +6,7 @@
   /**
    * DB Connector.
    */
-  class PDO_start
+  class PDOstart
   {
     public $dbh;
     public $isConnected;

@@ -1,0 +1,50 @@
+#top-bar {
+ padding-top: 33px;
+}
+
+h1 {
+  text-align: center;
+  color: #ee6e73;
+  font-weight: 300;
+}
+
+.table td, .table th, .table thead th {
+  border: none;
+}
+
+td, th {
+  padding: 15px 10px;
+}
+
+th, button.sort {
+  border: none;
+  color: rgba(0,0,0,0.6);
+  font-size: 16px;
+  font-weight: 300;
+  text-align: left;
+}
+
+button.sort {
+  padding: 0;
+}
+
+table>tbody>tr:nth-child(odd) {
+  background-color: rgba(242,242,242,0.5);
+}
+
+button:focus {
+  outline: none;
+}
+
+.desc:after {
+  content: '↓';
+}
+
+.asc:after {
+  content: '↑';
+}
+
+.pagesBottom span {
+  float: left;
+  padding-right: 4px;
+}

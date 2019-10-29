@@ -4,12 +4,16 @@
   setlocale( LC_TIME, 'ru_RU.utf8' );
 
   require './vendor/autoload.php'; // Twig init
-  use \App\PDO_start as PDO_start; // PDO init
+  use \App\PDOstart as PDOstart; // PDO init
+  use \App\Controllers\GetDB as GetDB;       // PDO init
   
   $settings = parse_ini_file( '/var/www/beejee.ini', true );
-  PDO_start::getConnect( $settings['database'] );
+  PDOstart::getConnect( $settings['database'] );
+  $connector = new GetDB();
+  $db = $connector->getUserData();
+
 
   $loader = new Twig_Loader_Filesystem('./template');
   $twig = new Twig_Environment( $loader, [] );
-  echo $twig->render( 'home.twig', [] );
+  echo $twig->render( 'home.twig', [ 'db' => $db ] );
 ?>
