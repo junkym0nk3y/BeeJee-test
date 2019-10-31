@@ -19,12 +19,12 @@
     public function getAction() {
       if ( !empty($_POST) && isset($_POST['admin']) ) // !
         return 'admin_post';
-      elseif ( !empty($url_request[1]) && $this->request == 'auth' )  // !
+      elseif ( !empty($_POST) && isset($_POST['auth']) )  // done
         return 'auth';
-      elseif ( !empty($url_request[1]) && $this->request == 'admin' )  // !
-        return 'admin_page';
       elseif ( !empty($_POST) && isset($_POST['new_task']) )  // done
         return 'new_task';
+      elseif ( !empty($url_request[1]) && $this->request == 'admin' )  // !
+        return 'admin_page';
       else
         return 'home';
     }
