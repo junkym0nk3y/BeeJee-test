@@ -110,6 +110,11 @@ input.form-control:not(.desc) {
   width: 160px;
 }
 
+td.hint {
+  padding: 22px 10px;
+  color: red;
+}
+
 /* Pagination */
 .pagesBottom span {
   float: left;

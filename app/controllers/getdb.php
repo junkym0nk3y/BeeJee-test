@@ -1,20 +1,24 @@
 <?php
   namespace App\Controllers;
   use \PDO as PDO;
-  use \App\PDOstart as PDOstart;
+  use \App\PDO_start as PDO_start;
 
   /**
    * Get data from DB.
    */
-  class GetDB {
-    function __construct() {
-       $this->tableExists();
+  class Get_DB {
+    protected $table;
+    protected $sticker_sets;
+
+    function __construct( string $table ) {
+      $this->table = $table;
+      $this->taskExist();
     }
 
     /**
      * Checks if table exist and create if does not.
      */
-    protected function tableExists(): void
+    protected function taskExist(): void
     {
       $result = $this->request( "SELECT 1 FROM tasks LIMIT 1" );
 
@@ -39,12 +43,12 @@
      * @param  int    $user_id
      * @return array
      */
-    public function getUserData(): array
+    public function getTaskData(): array
     {
-      $query = "SELECT * FROM tasks";
+      $query = "SELECT * FROM $this->table ORDER BY last_edit DESC";
       $stmt = $this->request( $query );
 
-      return $stmt->fetch( PDO::FETCH_ASSOC );
+      return $stmt->fetchAll( PDO::FETCH_ASSOC );
     }
 
     /**
@@ -54,7 +58,7 @@
      * @return object           PDO Statement 
      */
     protected function request( string $query, array $values = [] ) {
-      $stmt = PDOstart::getConnect()->dbh->prepare( $query );
+      $stmt = PDO_start::getConnect()->dbh->prepare( $query );
 
       try {
           $result = $values ? $stmt->execute( $values ) : $stmt->execute();
