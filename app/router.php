@@ -1,5 +1,6 @@
 <?php
   namespace App;
+  
   class Router
   {
     private $request;
@@ -13,20 +14,24 @@
         $to_explode = $_SERVER['REQUEST_URI'];
 
       $url_request = explode( '/', $to_explode );
-      !empty($url_request[1]) ? $this->request = preg_replace( '/[^\w\-]/iu', '', $url_request[1] ) : "first page";
+      $this->request = !empty($url_request[1]) ? preg_replace( '/[^\w\-]/iu', '', $url_request[1] ) : 'home';
     }
 
     public function getAction() {
-      if ( !empty($_POST) && isset($_POST['admin']) ) // !
+      if ( !empty($_POST) && isset($_POST['admin']) ){ // !
         return 'admin_post';
+      }
       elseif ( !empty($_POST) && isset($_POST['auth']) )  // done
         return 'auth';
       elseif ( !empty($_POST) && isset($_POST['new_task']) )  // done
         return 'new_task';
-      elseif ( !empty($url_request[1]) && $this->request == 'admin' )  // !
+      elseif ( $this->request == 'admin' )
         return 'admin_page';
-      else
+      elseif ( $this->request == 'home' )
         return 'home';
+      else
+        die($this->request);
+        //header( 'Location: /' );
     }
 
     public function handler() {

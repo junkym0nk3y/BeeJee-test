@@ -105,7 +105,7 @@ $( 'button.auth' ).on( 'click', function() {
           + '<label class="login-field-icon fui-lock" for="login-pass"></label>'
         + '</div>'
       + '</form>'
-      + '<button type="button" class="btn btn-primary btn-block" disabled>Ввойти</button>'
+      + '<button type="button" class="btn btn-primary btn-block" disabled>Войти</button>'
   });
 
   $('input#login-name').add('input#login-pass').on('input paste', function() {
@@ -120,7 +120,7 @@ $( 'button.auth' ).on( 'click', function() {
   });
 
   $( 'button.btn-block' ).on( 'click', function() {
-    var queryString = $( 'form#login-form' ).formSerialize();
+    var queryString = $( 'form#auth' ).formSerialize();
     var response = '';
     var options = {
       type: 'POST',
@@ -140,7 +140,7 @@ $( 'button.auth' ).on( 'click', function() {
       }
     };
     
-    $.ajax(options);
+    $.ajax( options );
   });
 });
 

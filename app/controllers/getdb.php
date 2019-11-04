@@ -52,6 +52,21 @@
     }
 
     /**
+     * Returns all user data
+     * @param  int    $user_id
+     * @return array
+     */
+    public function getUser( array $user_login )
+    {
+      $query = "SELECT * FROM $this->table WHERE user_login = ? LIMIT 1";
+      $stmt = $this->request( $query, $user_login );
+
+      return $stmt->fetch( PDO::FETCH_ASSOC );
+    }
+
+
+
+    /**
      * Send query to database and get or set data.
      * @param  string  $query   MySQL query
      * @param  array   $values  Values for placeholders
@@ -65,7 +80,7 @@
       } catch (Exception $e) {
           $result = FALSE;
       }
-
+      
       return !$result ? FALSE : $stmt;
     }
     
