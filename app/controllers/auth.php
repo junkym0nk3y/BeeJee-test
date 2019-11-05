@@ -1,26 +1,37 @@
 <?php
   namespace App\Controllers;
-  use \PDO as PDO;
-  use \App\PDO_start as PDO_start;
   use \App\Controllers\Get_DB as Get_DB;
   use \App\Controllers\Post_DB as Post_DB;
   
+
   class Auth
   {
-    private $domain, $my_ip, $cookie_time, $connector, $post_db;    
+    private $domain, $my_ip, $cookie_time, $get_db, $post_db;    
 
 
-    function __construct( string $domain, int $my_ip, int $cookie_time )
+    /**
+     * [__construct description]
+     * @param string  $domain      [description]
+     * @param int     $my_ip       [description]
+     * @param int     $cookie_time [description]
+     * @param Get_DB  $get_db      [description]
+     * @param Post_DB $post_db     [description]
+     */
+    function __construct( string $domain, int $my_ip, int $cookie_time, Get_DB $get_db, Post_DB $post_db )
     {
       $this->domain = $domain;
       $this->my_ip = $my_ip;
       $this->cookie_time = $cookie_time;
-      $this->connector = new Get_DB( 'users' );
-      $this->post_db = new Post_DB( 'users' );
+      $this->connector = $get_db;
+      $this->post_db = $post_db;
     }
 
 
-    function logoff()
+    /**
+     * [logoff description]
+     * @return [type] [description]
+     */
+    private function logoff(): void
     {
       setcookie( 'user_login', '', time() -1, '/', '.' . $this->domain );
       setcookie( 'hash', '', time() -1, '/', '.' . $this->domain );
@@ -29,7 +40,11 @@
     }
 
 
-    function connect()
+    /**
+     * [connect description]
+     * @return [type] [description]
+     */
+    public function connect(): void
     {
       switch (true) {
         case !isset( $_POST['login'] ):
@@ -37,14 +52,14 @@
         case empty( $_POST['login'] ):
         case empty( $_POST['password' ]):
         case preg_match( '/[^\w\-]/iu', $_POST['login'] ):
-          die( 'recheck' );
+          die( 'Данные введены неправильно' );
         default:
           $db = $this->connector->getUser([ $_POST['login'] ]);
           $this->post_db->updateHash([ 'user_hash' => '', 'user_login' => $_POST['login'] ]);
           break;
       }
 
-      if( $db && password_verify($_POST['password'], $db['user_password']) ){
+      if ( $db && password_verify($_POST['password'], $db['user_password']) ){
         $bytes = random_bytes(16);
         $hash = password_hash(bin2hex($bytes), PASSWORD_DEFAULT);
         $this->post_db->updateHash([ 'user_hash' => $hash, 'user_ip' => $this->my_ip, 'user_login' => $_POST['login'] ]);        
@@ -52,11 +67,15 @@
         setcookie( 'hash', $hash, time() + $this->cookie_time, '/', '.' . $this->domain );
         die ( 'done' );
       } else
-        die( 'wrong credentials' );
+        die( 'Неправильный логин или пароль' );
     }
 
 
-    function check_login()
+    /**
+     * [check_login description]
+     * @return [type] [description]
+     */
+    public function check_login(): string
     { 
       if ( !isset($_COOKIE['user_login']) || empty($_COOKIE['user_login']) || preg_match('/[^\w\-]/iu', $_COOKIE['user_login']) )
         $this->logoff();
@@ -77,7 +96,7 @@
           $this->post_db->updateHash([ 'user_last_logon' =>  date('Y-m-d H:i:s'), 'user_login' => $_COOKIE['user_login'] ]);
           setcookie( 'user_login', $db['user_login'], time() + $this->cookie_time, '/', '.' . $this->domain );
           setcookie( 'hash', $db['user_hash'], time() + $this->cookie_time, '/', '.' . $this->domain );
-          die( 'all_ok' );
+          return( 'all_ok' );
       }
   }
 

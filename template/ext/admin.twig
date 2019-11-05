@@ -1,0 +1,20 @@
+{% extends 'main.twig' %}
+
+{% block title %} - Администратор{% endblock %}
+
+{% block buttons %}
+  <button type="button" aria-disabled="true" class="btn btn-link save" disabled><i class="material-icons">save</i></button>
+  <button type="button" class="btn btn-dark logoff">Выйти</button>
+{% endblock %}
+
+{% block body %}<div id="countdown">Logout через: <span>{{ cookie_time|date('i:s') }}</span></div>{% endblock %}
+
+{% block edit_text %}Редактировать{% endblock %}
+
+{% block js %}
+  <script>
+    var domain = '{{ domain }}';
+    var cookie_time = '{{ cookie_time }}';
+  </script> 
+  <script src="/js/admin.js"></script>
+{% endblock %}

@@ -20,6 +20,7 @@
   direction: ltr;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  cursor: pointer;
 }
 
 *:focus {
@@ -92,10 +93,6 @@ th, button.sort {
   background: none;
 }
 
-table>tbody>tr:nth-child(odd) {
-  background-color: rgba(242,242,242,0.5);
-}
-
 th:last-child {
   width: 60px;
 }
@@ -117,7 +114,7 @@ button:focus {
 }
 
 input.form-control:not(.desc) {
-  width: 160px;
+  max-width: 160px;
 }
 
 td.hint {
@@ -155,8 +152,9 @@ h2#swal2-title {
   padding-bottom: 10px;
 }
 
-.login-form {
+#auth input {
   text-align: center;
+  z-index: 1000;
 }
 
 .control-group {
@@ -164,15 +162,14 @@ h2#swal2-title {
 }
 
 input {
-text-align: center;
-background-color: #ECF0F1;
-border: 2px solid transparent;
-border-radius: 3px;
-font-size: 16px;
-font-weight: 200;
-padding: 10px 0;
-width: 250px;
-transition: border .5s;
+  background-color: #ECF0F1;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 200;
+  padding: 10px 0;
+  width: 250px;
+  transition: border .5s;
 }
 
 input:focus {
@@ -199,4 +196,22 @@ input:focus {
 
 #auth.btn:hover {
   background-color: #2980B9;
+}
+
+/* Admin */
+#countdown {
+  position: fixed;
+  bottom: 10px;
+  z-index: 1000;
+  left: 26px;
+  width: 230px;
+  color: #343a40;
+}
+
+a.page {
+  padding-left: 4px;
+}
+
+td.align-middle.edited:not([data-edited=""]) .edit  {
+    color: #1b82ff;
 }

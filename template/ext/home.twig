@@ -1,0 +1,15 @@
+{% extends 'main.twig' %}
+
+{% block buttons %}
+  <button type="button" aria-disabled="true" class="btn btn-link save" disabled><i class="material-icons">save</i></button>
+  <button type="button" class="btn btn-link add-new"><i class="material-icons">add</i></button>
+  <button type="button" class="btn btn-primary auth">Авторизация</button>
+{% endblock %}
+
+{% block js %}
+  <script>
+    $(document).ready(function(){
+      var listjs = new List( 'userlist', list_options, values );
+    });
+  </script>
+{% endblock %}

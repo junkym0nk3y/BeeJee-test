@@ -4,11 +4,6 @@
 
 
   class Post_DB extends Get_DB { 
-    function __construct( string $table ) {
-      parent::__construct( $table );
-    }
-
-
     private function postToQuery( array $post, array $allowed ): array
     {
       $set = '';
@@ -25,25 +20,44 @@
     }
 
 
-    public function addData( array $allowed ) {
+    /**
+     * [addData description]
+     * @param array $allowed [description]
+     */
+    public function addData( array $allowed ): void 
+    {
       list( $set, $values ) = $this->postToQuery( $_POST, $allowed );
-      $query = "INSERT INTO $this->table SET $set";
+      $query = "INSERT INTO tasks SET $set";
       parent::request( $query, $values );
     }
 
 
-    public function updateHash( array $post ) {
+    /**
+     * [updateData description]
+     * @param  array  $allowed [description]
+     * @return [type]          [description]
+     */
+    public function updateData( array $allowed ): void 
+    {
+      list( $set, $values ) = $this->postToQuery( $_POST, $allowed );
+      $values['id'] = $_POST['id'];
+      $query = "UPDATE tasks SET $set WHERE id = :id";
+      parent::request( $query, $values );
+    }
+
+
+    /**
+     * [updateHash description]
+     * @param  array  $post [description]
+     * @return [type]       [description]
+     */
+    public function updateHash( array $post ): void
+    {
       list( $set, $values ) = $this->postToQuery( $post, ['user_hash', 'user_ip', 'user_last_logon'] );
       $values['user_login'] = $post['user_login'];
       $query = "UPDATE users SET $set WHERE user_login = :user_login";
       parent::request( $query, $values );
     }
 
-
-    public function deleteData( int $task_id ) {
-      $query = "DELETE FROM $this->table WHERE id = ?";
-      $result = parent::request( $query, [ $task_id ] );
-      return $result;
-    }
   }
   
